@@ -36,6 +36,13 @@ function App() {
         ]
     });
 
+    const newTaskTitle = (todoId: string, taskId: string, newTitle: string) => {
+        setTasks({ ...tasks, [todoId]: tasks[todoId].map(el => el.id === taskId ? { ...el, title: newTitle } : el) })
+    }
+
+    const newTodoTitle = (todoId: string, title: string) => {
+        setTodolists(todolists.map(el => el.id === todoId ? { ...el, title } : el))
+    }
 
     function removeTask(id: string, todolistId: string) {
         //достанем нужный массив по todolistId:
@@ -88,9 +95,9 @@ function App() {
 
     const addTodoHandler = (newTitle: string) => {
         let todoId = v1();
-        let newTodo: TodolistType =  { id: todoId, title: newTitle, filter: "all" };
+        let newTodo: TodolistType = { id: todoId, title: newTitle, filter: "all" };
         setTodolists([newTodo, ...todolists])
-        setTasks({...tasks, [todoId]: []})
+        setTasks({ ...tasks, [todoId]: [] })
     }
 
     return (
@@ -121,6 +128,8 @@ function App() {
                         changeTaskStatus={changeStatus}
                         filter={tl.filter}
                         removeTodolist={removeTodolist}
+                        newTaskTitle={newTaskTitle}
+                        newTodoTitle={newTodoTitle}
                     />
                 })
             }

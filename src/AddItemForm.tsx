@@ -1,4 +1,6 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import { Button, TextField } from '@mui/material';
+import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
@@ -6,15 +8,15 @@ type AddItemFormPropsType = {
 
 export function AddItemForm(props: AddItemFormPropsType) {
 
-    let [title, setTitle] = useState("")
-    let [error, setError] = useState<string | null>(null)
+    const [title, setTitle] = useState("")
+    const [error, setError] = useState<boolean>(false)
 
     const addItem = () => {
         if (title.trim() !== "") {
             props.addItem(title);
             setTitle("");
         } else {
-            setError("Title is required");
+            setError(true);
         }
     }
 
@@ -23,19 +25,25 @@ export function AddItemForm(props: AddItemFormPropsType) {
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null);
+        setError(false);
         if (e.charCode === 13) {
             addItem();
         }
     }
 
-    return <div>
-        <input value={title}
-               onChange={onChangeHandler}
-               onKeyPress={onKeyPressHandler}
-               className={error ? "error" : ""}
+    return <div style={{ display: "flex", alignItems: "flex-start" }}>
+        <TextField
+            sx={{ mr: "5px" }}
+            variant={"outlined"}
+            size={"small"}
+            value={title}
+            onChange={onChangeHandler}
+            onKeyPress={onKeyPressHandler}
+            className={error ? "error" : ""}
+            error={error}
+            helperText={error ? "Please, enter title" : undefined}
         />
-        <button onClick={addItem}>+</button>
+        <Button sx={{mt: "3px"}} variant={"contained"} color={"primary"} size={"small"} onClick={addItem}><AddCircleOutlineIcon /></Button>
 
         {error && <div className="error-message">{error}</div>}
     </div>

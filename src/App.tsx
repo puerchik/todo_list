@@ -1,8 +1,11 @@
+
 import React, { useReducer, useState } from 'react';
+
 import './App.css';
 import { TaskType, Todolist } from './Todolist';
 import { v1 } from 'uuid';
 import { AddItemForm } from './AddItemForm';
+
 import AppBar from '@mui/material/AppBar/AppBar';
 import { Button, Container, Grid, IconButton, Paper, Toolbar, Typography } from "@mui/material";
 import { Menu } from "@mui/icons-material";
@@ -12,14 +15,17 @@ import { addTaskAC, addTodolistTasksAC, changeStatusAC, changeTaskTitleAC, remov
 
 export type FilterValuesType = "all" | "active" | "completed";
 export type TodolistType = {
+
     id: string
     title: string
     filter: FilterValuesType
 }
 
-export type TasksStateType = {
+
+type TasksStateType = {
     [key: string]: Array<TaskType>
 }
+
 
 
 function App() {
@@ -27,9 +33,11 @@ function App() {
     let todolistId2 = v1();
 
     let [todolists, dispatchTodolists] = useReducer(todolistsReducer, [
+
         { id: todolistId1, title: "What to learn", filter: "all" },
         { id: todolistId2, title: "What to buy", filter: "all" }
     ])
+
 
     let [tasks, dispatchTasks] = useReducer(tasksReducer, {
         [todolistId1]: [
